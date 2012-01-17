@@ -1,17 +1,17 @@
 from django.conf.urls.defaults import patterns, include, url
 
-# Uncomment the next two lines to enable the admin:
-# from django.contrib import admin
-# admin.autodiscover()
+from django.contrib import admin
+admin.autodiscover()
 
 urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'edex.views.home', name='home'),
-    # url(r'^edex/', include('edex.foo.urls')),
+    url(r'^edex/$', 'edex_app.views.index'),
+    url(r'^edex/search/$', 'edex_app.views.search'),
+    url(r'^edex/lecture/$', 'edex_app.views.lecture'),
+    url(r'^edex/profile/$', 'edex_app.views.profile'),
+    url(r'^edex/notes/$', 'edex_app.views.notes'),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
-    # Uncomment the next line to enable the admin:
-    # url(r'^admin/', include(admin.site.urls)),
+    url(r'^admin/', include(admin.site.urls)),
 )
