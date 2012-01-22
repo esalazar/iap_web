@@ -10,7 +10,7 @@
     <body>
         <div class="header">
             <div class="logo">
-				<img src="/media/edex.png" alt="EdEx">
+				<img class="logo_image" src="/media/edex.png" alt="EdEx">
             </div>
             <div class="main_search">
 				<form name="input" action="main_search" method="get">
@@ -19,9 +19,11 @@
 				</form>
             </div>
         </div>
+		<div class="clear"></div>
         <div class="content">
             {% block content %}{% endblock %}
         </div>
+		<div class="clear"></div>
         <div class="footer">
         </div>
     </body>

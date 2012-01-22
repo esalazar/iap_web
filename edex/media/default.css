@@ -11,6 +11,10 @@ body {
 	float: left;
 }
 
+.logo_image {
+	height: 80px;
+}
+
 .main_search {
 	float: right;
 }
@@ -19,6 +23,14 @@ body {
 
 }
 
+.registration {
+	float: right;
+}
+
 .footer {
 
+}
+
+.clear {
+	clear: both;
 }
