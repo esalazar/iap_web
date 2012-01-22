@@ -10,7 +10,7 @@ class Keyword(models.Model):
     keyword_str = models.CharField(max_length=40)
 
 class Profile(models.Model):
-    user        = models.ForeignKey(User, unique=True)
+    user        = models.OneToOneField(User)
     language    = models.CharField(max_length=2, choices=LANGUAGES)
     keywords    = models.ManyToManyField(Keyword, null=True, blank=True)
 
