@@ -2,14 +2,22 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
         <link rel="stylesheet" href="/media/default.css" />
+		<link type="text/css" href="jquery/css/dark-hive/jquery-ui-1.8.17.custom.css" rel="Stylesheet" />
+		<script type="text/javascript" src="jquery/js/jquery-1.4.4.min.js"></script>
+		<script type="text/javascript" src="jquery/js/jquery-ui-1.8.17.custom.min.js"></script>
         <title>EdEx | {% block title %}{% endblock %}</title>
     </head>
-
     <body>
         <div class="header">
             <div class="logo">
             </div>
             <div class="main_search">
+				<form name="input" action="main_search" method="get">
+					<fieldset>
+						<input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all" />
+						<input type="submit" value="Submit" />
+					</fieldset>
+				</form>
             </div>
         </div>
         <div class="content">
