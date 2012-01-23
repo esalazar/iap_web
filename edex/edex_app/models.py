@@ -1,17 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import User
-
-LANGUAGES = (
-    ('English', 'en'),
-    ('Spanish', 'es'),
-)
+import conf
 
 class Keyword(models.Model):
     keyword_str = models.CharField(max_length=40)
 
 class Profile(models.Model):
     user        = models.OneToOneField(User)
-    language    = models.CharField(max_length=2, choices=LANGUAGES)
+    language    = models.CharField(max_length=2, choices=conf.LANGUAGES)
     keywords    = models.ManyToManyField(Keyword, null=True, blank=True)
 
 class Institution(models.Model):
