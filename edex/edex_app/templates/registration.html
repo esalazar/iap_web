@@ -5,14 +5,15 @@
 {% block content %}
 <div class="registration">
 	<form action="." method="post">
+    {% csrf_token %}
 		<fieldset>
-			<table>
+			<table class="registration_table ui-widget">
 				<tr>
-					<td><label for="username">Username</label></td>
+					<td><label for="username">Username: </label></td>
 					<td><input type="text" name="username" id="username" value="" class="ui-widget-content ui-corner-all" /></td>
 				</tr>
 				<tr>
-					<td><label for="firstname">First Name</label></td>
+					<td><label for="firstname">First Name: </label></td>
 					<td><input type="text" name="firstname" id="firstname" value="" class="ui-widget-content ui-corner-all" /></td>
 				</tr>
 				<tr>
@@ -28,25 +29,32 @@
 					<td><input type="password" name="password" id="password" value="" class="ui-widget-content ui-corner-all" /></td>
 				</tr>
 				<tr>
-					<td><label for="password">Re-Enter Password</label></td>
+					<td><label for="password">Comfirm Password</label></td>
 					<td><input type="password" name="repassword" id="repassword" value="" class="ui-widget-content ui-corner-all" /></td>
 				</tr>
 				<tr>
 					<td><label for="email">Language</label></td>
 					<td>
-						<select name="language" id="language" class="ui-widget-content ui-corner-all">
-						{% for language in languages %}
-							{% if language == "English" %}
-							<option selected="selected" value="{{ language[1] }}">{{ language[0] }}</option>
+						<select name="language" id="language" class="ui-corner-all registration_select">
+						{% for full_language, code_language in languages %}
+							{% if code_language == "en" %}
+							<option selected="selected" value="{{ code_language }}">{{ full_language }}</option>
 							{% else %}
-							<option value="{{ language[1] }}">{{ language[0] }}</option>
+							<option value="{{ code_language }}">{{ full_language }}</option>
 							{% endif %}
 						{% endfor %}
 						</select>
 					</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="hidden" name="type" id="type" value="registration" />
+            			<input type="submit" value="Register" class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all" />
+                    </td>
 				</tr>
 			</table>
-			<input type="submit" value="Register" />
+            <label class="error">{{ registration_error }}</label>
 		</fieldset>
 	</form>
 </div>

@@ -9,40 +9,60 @@
     </head>
     <body>
         <div class="header">
-            <div class="logo">
-				<img class="logo_image" src="/media/edex.png" alt="EdEx">
-            </div>
-            {% if index == None %}
-            <div class="main_search">
-				<form name="input" action="/edex/search" method="get">
-					<input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all" />
-					<input type="submit" value="Submit" />
-				</form>
-            </div>
-            {% endif %}
-            <div class="login">
-            {% if user.is_authenticated %}
-                <a href="/edex/profile/{{ user.username }}">{{ user.username }}</a> | <a href="/edex/logout/">Logout</a>
-            {% else %}
-            	<form action="." method="post">
-                {% csrf_token %}
-                    <table>
-                        <tr>
-                            <td><label for="username">Username</label></td>
-            		        <td><input type="text" name="username" id="username" value="" class="ui-widget-content ui-corner-all" /></td>
-                        </tr>
-                        <tr>
-                            <td><label for="password">Password</label></td>
-            		        <td><input type="password" name="password" id="password" value="" class="ui-widget-content ui-corner-all" /></td>
-                        </tr>
-                    </table>
-                    <input type="hidden" id="type" name="type" value="login" />
-                    <input type="submit" value="login" />
-            	</form>
-                <label class="error">{{ auth_error }}</label>
-                <a href="/edex/registration">Not signed up yet? Register.</a>
-            {% endif %}
-            </div>
+            <table class="header_table">
+                <tr>
+                    <td>
+                        <div class="logo">
+                            <a href="/edex/">
+            				    <img class="logo_image" src="/media/edex.png" alt="EdEx">
+                            </a>
+                        </div>
+                    </td>
+                    {% if index == None %}
+                    <td class="full_cell">
+                        <div class="main_search">
+            				<form name="input" action="/edex/search" method="get">
+                                <table class="main_search_table">
+                                    <tr>
+                                        <td>
+            			            		<input type="text" name="name" id="name" class="ui-widget ui-widget-content ui-corner-all main_search_text" />
+                                        </td>
+                                        <td>
+                        					<input type="submit" value="search" class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all" />
+                                        </td>
+                                    </tr>
+                                </table>
+            				</form>
+                        </div>
+                    </td>
+                    {% endif %}
+                    <td>
+                        <div class="login">
+                        {% if user.is_authenticated %}
+                            <a href="/edex/profile/{{ user.username }}">{{ user.username }}</a> | <a href="/edex/logout/">Logout</a>
+                        {% else %}
+                        	<form action="." method="post">
+                            {% csrf_token %}
+                                <table>
+                                    <tr>
+                                        <td><label for="username">Username</label></td>
+                        		        <td><input type="text" name="username" id="username" value="" class="ui-widget-content ui-corner-all" /></td>
+                                        <td><label for="password">Password</label></td>
+                        		        <td><input type="password" name="password" id="password" value="" class="ui-widget-content ui-corner-all" /></td>
+                                        <td>
+                                            <input type="hidden" id="type" name="type" value="login" />
+                                            <input type="submit" value="login" class="ui-button ui-button-text-only ui-state-default ui-corner-all" />
+                                        </td>
+                                    </tr>
+                                </table>
+                        	</form>
+                            <label class="error">{{ auth_error }}</label>
+                            Not signed up yet? <a href="/edex/registration">Register here.</a>
+                        {% endif %}
+                        </div>
+                    </td>
+                </tr>
+            </table>
         </div>
 		<div class="clear"></div>
         <div class="content">

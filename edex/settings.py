@@ -4,6 +4,8 @@ import os
 
 PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
 
+AUTH_PROFILE_MODULE = 'edex_app.Profile'
+
 LOGIN_URL = '/'
 
 DEBUG = True

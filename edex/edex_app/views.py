@@ -5,6 +5,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.context_processors import csrf
 
+from django.contrib.auth.models import User
+
 from edex_app.models import Keyword
 from edex_app.models import Profile
 from edex_app.models import Institution
@@ -26,7 +28,7 @@ def index(request):
         if request.method == 'POST':
             if 'login' == request.POST['type']:
                 if not auth(request):
-                    context['auth_error'] = "Incorrect username or password."
+                    context['auth_error'] = 'Incorrect username or password.'
     return render_to_response('index.html', context, context_instance=RequestContext(request))
 
 def institution(request, institution):
@@ -38,7 +40,7 @@ def institution(request, institution):
         if request.method == 'POST':
             if 'login' == request.POST['type']:
                 if not auth(request):
-                    context['auth_error'] = "Incorrect username or password."
+                    context['auth_error'] = 'Incorrect username or password.'
     return render_to_response('institution.html', context, context_instance=RequestContext(request))
 
 def course(request, institution, course):
@@ -50,7 +52,7 @@ def course(request, institution, course):
         if request.method == 'POST':
             if 'login' == request.POST['type']:
                 if not auth(request):
-                    context['auth_error'] = "Incorrect username or password."
+                    context['auth_error'] = 'Incorrect username or password.'
     return render_to_response('course.html', context, context_instance=RequestContext(request))
 
 def lecture(request, institution, course, lecture):
@@ -62,7 +64,7 @@ def lecture(request, institution, course, lecture):
         if request.method == 'POST':
             if 'login' == request.POST['type']:
                 if not auth(request):
-                    context['auth_error'] = "Incorrect username or password."
+                    context['auth_error'] = 'Incorrect username or password.'
     return render_to_response('lecture.html', context, context_instance=RequestContext(request))
 
 def search(request):
@@ -74,7 +76,7 @@ def search(request):
         if request.method == 'POST':
             if 'login' == request.POST['type']:
                 if not auth(request):
-                    context['auth_error'] = "Incorrect username or password."
+                    context['auth_error'] = 'Incorrect username or password.'
     return render_to_response('search.html', context, context_instance=RequestContext(request))
 
 def notes(request):
@@ -86,7 +88,7 @@ def notes(request):
         if request.method == 'POST':
             if 'login' == request.POST['type']:
                 if not auth(request):
-                    context['auth_error'] = "Incorrect username or password."
+                    context['auth_error'] = 'Incorrect username or password.'
     return render_to_response('notes.html', context, context_instance=RequestContext(request))
 
 @login_required
@@ -99,7 +101,7 @@ def profile(request):
         if request.method == 'POST':
             if 'login' == request.POST['type']:
                 if not auth(request):
-                    context['auth_error'] = "Incorrect username or password."
+                    context['auth_error'] = 'Incorrect username or password.'
     return render_to_response('profile.html', context, context_instance=RequestContext(request))
 
 def registration(request):
@@ -112,9 +114,45 @@ def registration(request):
         if request.method == 'POST':
             if 'login' == request.POST['type']:
                 if not auth(request):
-                    context['auth_error'] = "Incorrect username or password."
+                    context['auth_error'] = 'Incorrect username or password.'
                 else:
                     return HttpResponseRedirect('/edex/')
+            elif 'registration' == request.POST['type']:
+                username = request.POST['username']
+                first_name = request.POST['firstname']
+                last_name = request.POST['lastname']
+                email = request.POST['email']
+                password = request.POST['password']
+                repassword = request.POST['repassword']
+                language = request.POST['language']
+                if User.objects.filter(username=username).exists():
+                    context['registration_error'] = 'Error: Username cannot be used.'
+                elif User.objects.filter(email=email).exists():
+                    context['registration_error'] = 'Error: Email cannot be used.'
+                elif password != repassword:
+                    context['registration_error'] = 'Error: Mismatching passwords.'
+                elif password == '':
+                    context['registration_error'] = 'Error: No empty passwords.'
+                elif language == '':
+                    context['registration_error'] = 'Error: Please choose a language.'
+                elif first_name == '':
+                    context['registration_error'] = 'Error: Please enter a first name.'
+                elif last_name == '':
+                    context['registration_error'] = 'Error: Please enter a last name.'
+                else:
+                    try:
+                        user = User.objects.create_user(username=username, email=email, password=password)
+                        user.first_name = first_name
+                        user.last_name = last_name
+                        user.save()
+                        profile = Profile(user=user, language=language)
+                        profile.save()
+                        if not auth(request):
+                            context['auth_error'] = 'Incorrect username or password.'
+                        else:
+                            return HttpResponseRedirect('/edex/')
+                    except:
+                        context['registration_error'] = 'Error with registration.'
     return render_to_response('registration.html', context, context_instance=RequestContext(request))
 
 def auth(request):
