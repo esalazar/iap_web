@@ -9,10 +9,34 @@ Education Exchange
 {% endblock %}
 
 {% block content %}
-
+<div class="index_search">
+	<form name="input" action="/edex/search" method="get">
+		<table class="index_search_table">
+			<tr>
+				<td>
+					<input type="text" name="text" id="text" class="ui-widget ui-widget-content ui-corner-all index_search_text" />
+				</td>
+				<td>
+					<input type="submit" value="search" class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all" />
+				</td>
+			</tr>
+		</table>
+	</form>
+</div>
+<div class="clear"></div>
+<div class="keywords">
 {% if user.is_authenticated %}
-{{ user.username }}
+	{{ user.username }} keywords
 {% else %}
-Please log in
+	Description of EdEx with some sample keywords
 {% endif %}
+</div>
+<div class="clear"></div>
+<div class="related_courses">
+{% if user.is_authenticated %}
+	{{ user.username }} Recommendations
+{% else %}
+	Popular Courses
+{% endif %}
+</div>
 {% endblock %}

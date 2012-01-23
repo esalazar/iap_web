@@ -37,7 +37,7 @@ a:hover {
 }
 
 .logo {
-    padding: 2px;
+    padding: 4px;
 }
 
 .logo_image {
@@ -60,6 +60,30 @@ a:hover {
 .content {
     margin: 5px;
     padding: 5px;
+}
+
+.index_search {
+	width: 100%;
+	padding: 2px;
+	text-align: center;
+}
+
+.index_search_text {
+    width: 100% 
+}
+
+.index_search_table {
+    width: 100%;
+}
+
+.keywords {
+	width: 100%;
+	text-align: center;
+}
+
+.related_videos {
+	width: 100%;
+	text-align: center;
 }
 
 .registration {
