@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Registration{% endblock %}
+
+{% block content %}
+<div class="registration">
+	<form action="." method="post">
+		<fieldset>
+			<label for="name">First Name</label>
+			<input type="text" name="first_name" id="first_name" class="ui-widget-content ui-corner-all" />
+			<br />
+			<label for="name">Last Name</label>
+			<input type="text" name="last_name" id="last_name" class="ui-widget-content ui-corner-all" />
+			<br />
+			<label for="email">Email</label>
+			<input type="text" name="email" id="email" value="" class="ui-widget-content ui-corner-all" />
+			<br />
+			<label for="password">Password</label>
+			<input type="password" name="password" id="password" value="" class="ui-widget-content ui-corner-all" />
+			<br />
+			<input type="submit" value="Register" />
+		</fieldset>
+	</form>
+</div>
+{% endblock %}
