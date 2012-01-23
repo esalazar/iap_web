@@ -1,34 +1,48 @@
 body {
 	background-color: #222;
 	color: #fff;
+    margin: 0px;
 }
 
 .header {
-
+    background-color: #444;
+    border-bottom-style: solid;
+    border-width: 2px;
+    border-color: #111;
+    padding: 5px
 }
 
 .logo {
-	float: left;
+    padding: 5px;
 }
 
 .logo_image {
-	height: 80px;
+	height: 75px;
 }
 
 .main_search {
-	float: right;
+	padding: 5px;
+    float: right;
 }
 
 .content {
-
+    margin: 5px;
 }
 
 .registration {
 	float: right;
 }
 
-.footer {
+.login {
+    float: right;
+    padding: 10px;
+}
 
+.footer {
+    border-bottom-style: solid;
+    border-width: 2px;
+    border-color: #111;
+    margin 5px;
 }
 
 .clear {

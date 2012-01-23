@@ -5,10 +5,15 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^edex/$', 'edex_app.views.index'),
+    url(r'^edex/lecture/(?P<institution>[a-z]+)/$', 'edex_app.views.institution'),
+    url(r'^edex/lecture/(?P<institution>[a-z]+)/(?P<course>\d+)/$', 'edex_app.views.course'),
+    url(r'^edex/lecture/(?P<institution>[a-z]+)/(?P<course>\d+)/(?P<lecture>\d+)/$', 'edex_app.views.lecture'),
     url(r'^edex/search/$', 'edex_app.views.search'),
-    url(r'^edex/lecture/$', 'edex_app.views.lecture'),
-    url(r'^edex/profile/$', 'edex_app.views.profile'),
+    url(r'^edex/registration/$', 'edex_app.views.registration'),
     url(r'^edex/notes/$', 'edex_app.views.notes'),
+    url(r'^edex/profile/$', 'edex_app.views.profile'),
+    url(r'^edex/login/$', 'edex_app.views.login_view'),
+    url(r'^edex/logout/$', 'edex_app.views.logout_view'),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),

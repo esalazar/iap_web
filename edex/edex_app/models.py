@@ -19,7 +19,7 @@ class Institution(models.Model):
     link    = models.URLField()
     rss     = models.URLField()
 
-class Class(models.Model):
+class Course(models.Model):
     title       = models.CharField(max_length=100)
     description = models.CharField(max_length=500)
     url         = models.URLField()
@@ -33,7 +33,7 @@ class Lecture(models.Model):
     url         = models.URLField(blank=True, null=True)
     video       = models.URLField(blank=True, null=True)
     lecturer    = models.CharField(max_length=100)
-    lec_class   = models.ForeignKey(Class, related_name='class')
+    course   = models.ForeignKey(Course, related_name='course')
 
 class Note(models.Model):
     text    = models.TextField(null=True, blank=True)

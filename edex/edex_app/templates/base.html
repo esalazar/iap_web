@@ -12,11 +12,36 @@
             <div class="logo">
 				<img class="logo_image" src="/media/edex.png" alt="EdEx">
             </div>
+            {% if index == None %}
             <div class="main_search">
-				<form name="input" action="main_search" method="get">
+				<form name="input" action="/edex/search" method="get">
 					<input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all" />
 					<input type="submit" value="Submit" />
 				</form>
+            </div>
+            {% endif %}
+            <div class="login">
+            {% if user.is_authenticated %}
+                <a href="/edex/profile/{{ user.username }}">{{ user.username }}</a> | <a href="/edex/logout/">Logout</a>
+            {% else %}
+            	<form action="." method="post">
+                {% csrf_token %}
+                    <table>
+                        <tr>
+                            <td><label for="username">Username</label></td>
+            		        <td><input type="text" name="username" id="username" value="" class="ui-widget-content ui-corner-all" /></td>
+                        </tr>
+                        <tr>
+                            <td><label for="password">Password</label></td>
+            		        <td><input type="password" name="password" id="password" value="" class="ui-widget-content ui-corner-all" /></td>
+                        </tr>
+                    </table>
+                    <input type="hidden" id="type" name="type" value="login" />
+                    <input type="submit" value="login" />
+            	</form>
+                <label class="error">{{ auth_error }}</label>
+                <a href="/edex/registration">Not signed up yet? Register.</a>
+            {% endif %}
             </div>
         </div>
 		<div class="clear"></div>
