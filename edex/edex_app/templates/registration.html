@@ -6,18 +6,46 @@
 <div class="registration">
 	<form action="." method="post">
 		<fieldset>
-			<label for="name">First Name</label>
-			<input type="text" name="first_name" id="first_name" class="ui-widget-content ui-corner-all" />
-			<br />
-			<label for="name">Last Name</label>
-			<input type="text" name="last_name" id="last_name" class="ui-widget-content ui-corner-all" />
-			<br />
-			<label for="email">Email</label>
-			<input type="text" name="email" id="email" value="" class="ui-widget-content ui-corner-all" />
-			<br />
-			<label for="password">Password</label>
-			<input type="password" name="password" id="password" value="" class="ui-widget-content ui-corner-all" />
-			<br />
+			<table>
+				<tr>
+					<td><label for="username">Username</label></td>
+					<td><input type="text" name="username" id="username" value="" class="ui-widget-content ui-corner-all" /></td>
+				</tr>
+				<tr>
+					<td><label for="firstname">First Name</label></td>
+					<td><input type="text" name="firstname" id="firstname" value="" class="ui-widget-content ui-corner-all" /></td>
+				</tr>
+				<tr>
+					<td><label for="lastname">Last Name</label></td>
+					<td><input type="text" name="lastname" id="lastname" value="" class="ui-widget-content ui-corner-all" /></td>
+				</tr>
+				<tr>
+					<td><label for="email">Email</label></td>
+					<td><input type="text" name="email" id="email" value="" class="ui-widget-content ui-corner-all" /></td>
+				</tr>
+				<tr>
+					<td><label for="password">Password</label></td>
+					<td><input type="password" name="password" id="password" value="" class="ui-widget-content ui-corner-all" /></td>
+				</tr>
+				<tr>
+					<td><label for="password">Re-Enter Password</label></td>
+					<td><input type="password" name="repassword" id="repassword" value="" class="ui-widget-content ui-corner-all" /></td>
+				</tr>
+				<tr>
+					<td><label for="email">Language</label></td>
+					<td>
+						<select name="language" id="language" class="ui-widget-content ui-corner-all">
+						{% for language in languages %}
+							{% if language == "English" %}
+							<option selected="selected" value="{{ language[1] }}">{{ language[0] }}</option>
+							{% else %}
+							<option value="{{ language[1] }}">{{ language[0] }}</option>
+							{% endif %}
+						{% endfor %}
+						</select>
+					</td>
+				</tr>
+			</table>
 			<input type="submit" value="Register" />
 		</fieldset>
 	</form>

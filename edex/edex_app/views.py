@@ -14,6 +14,8 @@ from edex_app.models import Note
 from edex_app.models import Question
 from edex_app.models import Answer
 
+import conf
+
 def index(request):
     context = {}
     context.update(csrf(request))
@@ -103,8 +105,9 @@ def profile(request):
 def registration(request):
     context = {}
     context.update(csrf(request))
+    context['languages'] = conf.LANGUAGES
     if request.user.is_authenticated():
-        pass
+        return HttpResponseRedirect("/edex/")
     else:
         if request.method == 'POST':
             if 'login' == request.POST['type']:
