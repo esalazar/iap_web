@@ -127,7 +127,7 @@ def registration(request):
                 language = request.POST['language']
                 if User.objects.filter(username=username).exists() or username == '':
                     context['registration_error'] = 'Error: Username cannot be used.'
-                elif User.objects.filter(email=email).exists() or email = '':
+                elif User.objects.filter(email=email).exists() or email == '':
                     context['registration_error'] = 'Error: Email cannot be used.'
                 elif password != repassword:
                     context['registration_error'] = 'Error: Mismatching passwords.'
