@@ -6,7 +6,7 @@ admin.autodiscover()
 urlpatterns = patterns('',
     url(r'^edex/$', 'edex_app.views.index'),
     url(r'^edex/lecture/(?P<institution>[a-z]+)/$', 'edex_app.views.institution'),
-    url(r'^edex/lecture/(?P<institution>[a-z]+)/(?P<course>\d+)/$', 'edex_app.views.course'),
+    url(r'^edex/course/(?P<course_pk>\d+)/$', 'edex_app.views.course'),
     url(r'^edex/lecture/(?P<institution>[a-z]+)/(?P<course>\d+)/(?P<lecture>\d+)/$', 'edex_app.views.lecture'),
     url(r'^edex/search/$', 'edex_app.views.search'),
     url(r'^edex/registration/$', 'edex_app.views.registration'),

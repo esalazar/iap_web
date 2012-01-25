@@ -4,15 +4,15 @@
 
 {% block content %}
     <div="search_content">
-        <h2>Search</h2>
         {% if text %}
-            <h3>Results</h3>
-
             {% for result in page.object_list %}
                 <p>
-                    <a href="{{ result.object.description }}">{{ result.object.title }}</a>
+                    <a href="/edex/course/{{ result.object.pk }}">{{ result.object.title }}</a>
+                {% for lecture in lectures.num %}
+                    <label>{{ lecture.title }}</label>
+                {% endfor %}
                 </p>
-            {% empty %}
+                {% empty %}
                 <p>No results found.</p>
             {% endfor %}
 

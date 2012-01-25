@@ -34,10 +34,16 @@ def institution(request, institution):
     context['auth_error'] = check_if_login(request)
     return render_to_response('institution.html', context, context_instance=RequestContext(request))
 
-def course(request, institution, course):
+def course(request, course_pk):
     context = {}
     context.update(csrf(request))
     context['auth_error'] = check_if_login(request)
+    try:
+        context['course'] = Course.objects.get(pk=course_pk)
+        context['lectures'] = get_lectures(context['course'])
+
+    except:
+        context['course_error'] = 'The course does not exist.'
     return render_to_response('course.html', context, context_instance=RequestContext(request))
 
 def lecture(request, institution, course, lecture):
@@ -50,20 +56,21 @@ def search(request):
     context = {}
     context.update(csrf(request))
     context['auth_error'] = check_if_login(request)
+
+    results_per_page = 10
     if request.GET.get('text'):
-        results = EmptySearchQuerySet()
+        course_results = EmptySearchQuerySet()
         text = request.GET['text']
-        context['text'] = text
-        results = SearchQuerySet().filter(content=text)
-        paginator = Paginator(results, 10)
+        course_results = SearchQuerySet().filter(content=SearchQuerySet().query.clean(text)).models(Course)
+        
+        paginator = Paginator(course_results, results_per_page)
         try:
             page = paginator.page(int(request.GET.get('page', 1)))
         except InvalidPage:
             raise Http404("No such page of results!")
+        context['text'] = text
         context['page'] = page
         context['paginator'] = paginator
-    else:
-        pass
     return render_to_response('search.html', context, context_instance=RequestContext(request))
 
 def notes(request):
@@ -152,3 +159,7 @@ def check_if_login(request):
                 if not auth(request):
                     return 'Incorrect username or password.'
 
+def get_lectures(course):
+    lectures = []
+    lectures.append(Lecture.objects.filter(course=course).order_by('number'))
+    return lectures
