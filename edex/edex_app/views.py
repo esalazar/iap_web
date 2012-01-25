@@ -4,6 +4,8 @@ from django.template import Context, loader, RequestContext
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.context_processors import csrf
+from django.core.paginator import Paginator, InvalidPage
+from django.http import Http404
 from django.contrib.auth.models import User
 
 from edex_app.models import Keyword
@@ -15,92 +17,66 @@ from edex_app.models import Note
 from edex_app.models import Question
 from edex_app.models import Answer
 
+from haystack.query import SearchQuerySet, EmptySearchQuerySet
+
 import conf
 
 def index(request):
     context = {}
     context.update(csrf(request))
+    context['auth_error'] = check_if_login(request)
     context['index'] = True
-    if request.user.is_authenticated():
-        pass
-    else:
-        if request.method == 'POST':
-            if 'login' == request.POST['type']:
-                if not auth(request):
-                    context['auth_error'] = 'Incorrect username or password.'
     return render_to_response('index.html', context, context_instance=RequestContext(request))
 
 def institution(request, institution):
     context = {}
     context.update(csrf(request))
-    if request.user.is_authenticated():
-        pass
-    else:
-        if request.method == 'POST':
-            if 'login' == request.POST['type']:
-                if not auth(request):
-                    context['auth_error'] = 'Incorrect username or password.'
+    context['auth_error'] = check_if_login(request)
     return render_to_response('institution.html', context, context_instance=RequestContext(request))
 
 def course(request, institution, course):
     context = {}
     context.update(csrf(request))
-    if request.user.is_authenticated():
-        pass
-    else:
-        if request.method == 'POST':
-            if 'login' == request.POST['type']:
-                if not auth(request):
-                    context['auth_error'] = 'Incorrect username or password.'
+    context['auth_error'] = check_if_login(request)
     return render_to_response('course.html', context, context_instance=RequestContext(request))
 
 def lecture(request, institution, course, lecture):
     context = {}
     context.update(csrf(request))
-    if request.user.is_authenticated():
-        pass
-    else:
-        if request.method == 'POST':
-            if 'login' == request.POST['type']:
-                if not auth(request):
-                    context['auth_error'] = 'Incorrect username or password.'
+    context['auth_error'] = check_if_login(request)
     return render_to_response('lecture.html', context, context_instance=RequestContext(request))
 
-def search(request, term):
+def search(request):
     context = {}
     context.update(csrf(request))
-    if request.user.is_authenticated():
-        pass
+    context['auth_error'] = check_if_login(request)
+    if request.GET.get('text'):
+        results = EmptySearchQuerySet()
+        text = request.GET['text']
+        context['text'] = text
+        results = SearchQuerySet().filter(content=text)
+        paginator = Paginator(results, 10)
+        try:
+            page = paginator.page(int(request.GET.get('page', 1)))
+        except InvalidPage:
+            raise Http404("No such page of results!")
+        context['page'] = page
+        context['paginator'] = paginator
     else:
-        if request.method == 'POST':
-            if 'login' == request.POST['type']:
-                if not auth(request):
-                    context['auth_error'] = 'Incorrect username or password.'
+        pass
     return render_to_response('search.html', context, context_instance=RequestContext(request))
 
 def notes(request):
     context = {}
     context.update(csrf(request))
-    if request.user.is_authenticated():
-        pass
-    else:
-        if request.method == 'POST':
-            if 'login' == request.POST['type']:
-                if not auth(request):
-                    context['auth_error'] = 'Incorrect username or password.'
+    context['auth_error'] = check_if_login(request)
     return render_to_response('notes.html', context, context_instance=RequestContext(request))
 
 @login_required
 def profile(request):
     context = {}
     context.update(csrf(request))
-    if request.user.is_authenticated():
-        pass
-    else:
-        if request.method == 'POST':
-            if 'login' == request.POST['type']:
-                if not auth(request):
-                    context['auth_error'] = 'Incorrect username or password.'
+    context['auth_error'] = check_if_login(request)
     return render_to_response('profile.html', context, context_instance=RequestContext(request))
 
 def registration(request):
@@ -166,3 +142,13 @@ def auth(request):
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect("/edex/")
+
+def check_if_login(request):
+    if request.method == 'POST':
+        if 'login' == request.POST['type']:
+            if request.user_is_authenticated():
+                return 'You are already logged in.'
+            else:
+                if not auth(request):
+                    return 'Incorrect username or password.'
+
