@@ -30,7 +30,7 @@
                     {% if index == None %}
                     <td class="full_cell">
                         <div class="main_search">
-            				<form name="input" action="/edex/search" method="get">
+            				<form name="input" action="{% url edex_app.views.search %}" method="get">
                                 <table class="main_search_table">
                                     <tr>
                                         <td>
@@ -48,7 +48,7 @@
                     <td>
                         <div class="login">
                         {% if user.is_authenticated %}
-                            <a href="/edex/profile/{{ user.username }}">{{ user.username }}</a> | <a href="/edex/logout/">Logout</a>
+                            <a href="{% url edex_app.views.profile user.username %}">{{ user.username }}</a> | <a href="{% url edex_app.views.logout_view %}">Logout</a>
                         {% else %}
                             <table>
                                 <tr>
@@ -76,7 +76,7 @@
                                     |
                                     </td>
                                     <td>
-			            				<a href="/edex/registration" class="ui-widget">sign up</a>
+			            				<a href="{% url edex_app.views.registration %}" class="ui-widget">sign up</a>
                                     </td>
                                 </tr>
                                 <tr>

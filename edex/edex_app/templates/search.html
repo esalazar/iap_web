@@ -7,7 +7,7 @@
         {% if text %}
             {% for result in page.object_list %}
                 <p>
-                    <a href="/edex/course/{{ result.object.pk }}">{{ result.object.title }}</a>
+                    <a href="{% url edex_app.views.course result.object.pk %}">{{ result.object.title }}</a>
                 {% for lecture in lectures.num %}
                     <label>{{ lecture.title }}</label>
                 {% endfor %}
