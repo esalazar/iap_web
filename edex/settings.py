@@ -9,10 +9,15 @@ AUTH_PROFILE_MODULE = 'edex_app.Profile'
 LOGIN_URL = '/'
 
 DEBUG = True
+
 TEMPLATE_DEBUG = DEBUG
 
+HAYSTACK_SITECONF = 'edex_app.search_sites'
+HAYSTACK_SEARCH_ENGINE = 'whoosh'
+HAYSTACK_WHOOSH_PATH = os.path.join(PROJECT_PATH, 'index.whoosh')
+
 ADMINS = (
-    # ('Your Name', 'your_email@example.com'),
+    ('Edgar Salazar', 'esalazar@mit.edu'),
 )
 
 MANAGERS = ADMINS
@@ -123,6 +128,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'edex_app',
+    'haystack',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )

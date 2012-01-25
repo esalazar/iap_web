@@ -1,0 +1,4 @@
+{{ object.description }}
+{{ object.title }}
+{{ object.lecturer }}
+{{ object.keywords }}

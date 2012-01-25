@@ -4,7 +4,6 @@ from django.template import Context, loader, RequestContext
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.context_processors import csrf
-
 from django.contrib.auth.models import User
 
 from edex_app.models import Keyword
@@ -67,7 +66,7 @@ def lecture(request, institution, course, lecture):
                     context['auth_error'] = 'Incorrect username or password.'
     return render_to_response('lecture.html', context, context_instance=RequestContext(request))
 
-def search(request):
+def search(request, term):
     context = {}
     context.update(csrf(request))
     if request.user.is_authenticated():

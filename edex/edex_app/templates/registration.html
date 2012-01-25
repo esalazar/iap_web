@@ -36,7 +36,7 @@
 					<td><label for="email">Language</label></td>
 					<td>
 						<select name="language" id="language" class="ui-corner-all registration_select">
-						{% for full_language, code_language in languages %}
+						{% for code_language, full_language in languages %}
 							{% if code_language == "en" %}
 							<option selected="selected" value="{{ code_language }}">{{ full_language }}</option>
 							{% else %}

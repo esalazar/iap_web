@@ -1,4 +1,4 @@
 LANGUAGES = (
-    ('English', 'en'),
-    ('Spanish', 'es'),
+    ('en', 'English'),
+    ('es', 'Espanol'),
 )
