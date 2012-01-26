@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block title %}
+{% if user_profile %}
+    {{ user_profile.username }}'s Profile
+{% else %}
+Profiles
+{% endif %}
+{% endblock %}

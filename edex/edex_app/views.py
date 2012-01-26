@@ -79,8 +79,7 @@ def notes(request):
     context['auth_error'] = check_if_login(request)
     return render_to_response('notes.html', context, context_instance=RequestContext(request))
 
-@login_required
-def profile(request):
+def profile(request, username):
     context = {}
     context.update(csrf(request))
     context['auth_error'] = check_if_login(request)

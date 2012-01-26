@@ -11,7 +11,7 @@ urlpatterns = patterns('',
     url(r'^edex/search/$', 'edex_app.views.search'),
     url(r'^edex/registration/$', 'edex_app.views.registration'),
     url(r'^edex/notes/$', 'edex_app.views.notes'),
-    url(r'^edex/profile/$', 'edex_app.views.profile'),
+    url(r'^edex/profile/(?P<username>[\w_\-\.]*)/$', 'edex_app.views.profile'),
     url(r'^edex/logout/$', 'edex_app.views.logout_view'),
 
     # Uncomment the admin/doc line below to enable admin documentation:

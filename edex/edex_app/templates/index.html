@@ -10,7 +10,7 @@ Education Exchange
 
 {% block content %}
 <div class="index_search">
-	<form name="input" action="/edex/search" method="get">
+	<form name="input" action="{% url edex_app.views.search %}" method="get">
 		<table class="index_search_table">
 			<tr>
 				<td>
