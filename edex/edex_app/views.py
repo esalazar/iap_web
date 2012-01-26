@@ -80,6 +80,12 @@ def profile(request, username):
     context = {}
     context.update(csrf(request))
     context['auth_error'] = check_if_login(request)
+    try:
+        user = User.objects.get(username=username)
+        user_profile = UserProfile.objects.filter(user=user)[0]
+        context['user_profile'] = user_profile
+    except:
+        raise Http404('Cannot find that user.')
     return render_to_response('profile.html', context, context_instance=RequestContext(request))
 
 def registration(request):

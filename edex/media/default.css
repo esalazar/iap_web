@@ -1,6 +1,6 @@
 body {
-	background-color: #444;
-	color: #fff;
+    background-color: #444;
+    color: #fff;
     margin: 0px;
 }
 
@@ -113,6 +113,34 @@ a:hover {
 
 .show_login {
     display: none;
+}
+
+.lecture {
+}
+
+.lecture_container {
+    position: relative;
+    margin: 0 auto;
+}
+
+#ui-carousel-next {
+    top: 0;
+    right: 0;
+    height: 100%;
+    position: absolute;
+    display: block;
+    z-index: 100;
+    background: url(arrow-right.png) #444 center center no-repeat;
+}
+
+#ui-carousel-prev {
+    top: 0;
+    left: 0;
+    height: 100%;
+    position: absolute;
+    display: block;
+    z-index: 100;
+    background: url(arrow-left.png) #444 center center no-repeat;
 }
 
 .footer {

@@ -14,6 +14,12 @@
             });
         </script>
         {% endif %}
+        {% if course %}
+        <script>
+            jQuery(function($) {
+            });
+        </script>
+        {% endif %}
         {% if lecture_video_id %}
         <script src="http://www.google.com/jsapi" type="text/javascript"></script>
         <script type="text/javascript">
@@ -21,7 +27,7 @@
             function load_video() {
                 var params = { allowScriptAccess: "always"};
                 var atts = { id: "ytPlayer"};
-                swfobject.embedSWF("http://www.youtube.com/v/{{ lecture_video_id }}?enablejsapi=1&playerapiid=ytplayer&version=3", "video_player", "425", "356", "8", null, null, params, atts);
+                swfobject.embedSWF("http://www.youtube.com/v/{{ lecture_video_id }}?enablejsapi=1&playerapiid=ytplayer&version=3", "video_player", "400", "300", "8", null, null, params, atts);
             }
             google.setOnLoadCallback(load_video);
         </script>
