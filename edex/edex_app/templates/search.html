@@ -8,7 +8,7 @@
             {% for result in page.object_list %}
                 <p>
                     <a href="{% url edex_app.views.course result.object.pk %}">{{ result.object.title }}</a>
-                {% for lecture in lectures.num %}
+                {% for lecture in lectures %}
                     <label>{{ lecture.title }}</label>
                 {% endfor %}
                 </p>

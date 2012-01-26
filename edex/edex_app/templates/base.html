@@ -14,6 +14,18 @@
             });
         </script>
         {% endif %}
+        {% if lecture_video_id %}
+        <script src="http://www.google.com/jsapi" type="text/javascript"></script>
+        <script type="text/javascript">
+            google.load("swfobject", "2.1");
+            function load_video() {
+                var params = { allowScriptAccess: "always"};
+                var atts = { id: "ytPlayer"};
+                swfobject.embedSWF("http://www.youtube.com/v/{{ lecture_video_id }}?enablejsapi=1&playerapiid=ytplayer&version=3", "video_player", "425", "356", "8", null, null, params, atts);
+            }
+            google.setOnLoadCallback(load_video);
+        </script>
+        {% endif %}
         <title>EdEx | {% block title %}{% endblock %}</title>
     </head>
     <body>

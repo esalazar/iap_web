@@ -89,7 +89,7 @@ def MIT_parser(link):
                 lecture_data    = rss_reader(accept_lecture)
                 lecture_entries = lecture_data['entries']
                 for lecture_number in range(len(lecture_entries)):
-                    match = re.search('(?<=")http://www.youtube.com/v/[\w\-_]+(?=")', lecture_entries[lecture_number]['summary'])
+                    match = re.search('(?<="http://www.youtube.com/v/)[\w\-_]+(?=")', lecture_entries[lecture_number]['summary'])
                     youtube_link = ''
                     if match != None:
                         youtube_link = match.group(0)

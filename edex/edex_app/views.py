@@ -7,16 +7,7 @@ from django.core.context_processors import csrf
 from django.core.paginator import Paginator, InvalidPage
 from django.http import Http404
 from django.contrib.auth.models import User
-
-from edex_app.models import Keyword
-from edex_app.models import Profile
-from edex_app.models import Institution
-from edex_app.models import Course
-from edex_app.models import Lecture
-from edex_app.models import Note
-from edex_app.models import Question
-from edex_app.models import Answer
-
+from edex_app.models import *
 from haystack.query import SearchQuerySet, EmptySearchQuerySet
 
 import conf
@@ -41,16 +32,22 @@ def course(request, course_pk):
     try:
         context['course'] = Course.objects.get(pk=course_pk)
         context['lectures'] = get_lectures(context['course'])
-
     except:
-        context['course_error'] = 'The course does not exist.'
+        raise Http404('The course does not exist.')
     return render_to_response('course.html', context, context_instance=RequestContext(request))
 
-def lecture(request, institution, course, lecture):
+def lecture(request, course_pk, lecture_num):
     context = {}
     context.update(csrf(request))
     context['auth_error'] = check_if_login(request)
-    return render_to_response('lecture.html', context, context_instance=RequestContext(request))
+    try:
+        context['course'] = Course.objects.get(pk=course_pk)
+        context['lectures'] = get_lectures(context['course'])
+        context['lecture_num'] = int(lecture_num)
+        context['lecture_video_id'] = Lecture.objects.filter(course=context['course'], number=lecture_num)[0].video
+    except:
+        raise Http404('The course does not exist.')
+    return render_to_response('course.html', context, context_instance=RequestContext(request))
 
 def search(request):
     context = {}
@@ -160,5 +157,5 @@ def check_if_login(request):
 
 def get_lectures(course):
     lectures = []
-    lectures.append(Lecture.objects.filter(course=course).order_by('number'))
+    lectures = Lecture.objects.filter(course=course).order_by('number')
     return lectures

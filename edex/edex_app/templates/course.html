@@ -7,3 +7,42 @@
     Course
 {% endif %}
 {% endblock  %}
+
+{% block content %}
+
+<div class="video_panel">
+{% for lecture in lectures %}
+    {% if lecture.number == lecture_num %}
+        <div id="video_player">
+            You need flash player to view this video.
+        </div>
+    {% else %}
+        <a href="{% url edex_app.views.lecture course.pk lecture.number %}"><img src="http://img.youtube.com/vi/{{ lecture.video }}/0.jpg" /></a>
+    {% endif %}
+{% endfor %}
+</div>
+<div class="clear"></div>
+<div class="video_description">
+
+</div>
+<div class="clear"></div>
+<table>
+    <tr>
+        <td>
+            <div class="notes_panel">
+
+            </div>
+        </td>
+        <td>
+            <div class="question_answer_panel">
+
+            </div>
+        </td>
+    </tr>
+</table>
+<div class="clear"></div>
+<div class="recommended_panel">
+
+</div>
+
+{% endblock %}
