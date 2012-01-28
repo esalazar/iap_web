@@ -1,0 +1,131 @@
+/* Default MovingBoxes wrapper size */
+#movingboxes {
+	width: 900px;
+	min-height: 200px;
+}
+
+/* Default MovingBoxes panel size */
+#movingboxes > li {
+	width: 350px;
+}
+
+/*** Overall MovingBoxes Slider ***/
+.mb-wrapper {
+	margin: 0 auto;
+	position: relative;
+	left: 0;
+	top: 0;
+}
+
+/* Panel Wrapper */
+.mb-slider, .mb-scroll {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	margin: 0 auto;
+	padding: 0;
+	position: relative;
+	left: 0;
+	top: 0;
+
+	/***(>'-')> Control Panel Font size here <('-'<)***/
+	font-size: 14px;
+}
+
+/* active slider border highlight */
+.mb-active-slider {
+	border-color: #999bff;
+}
+
+/*** Slider panel ***/
+.mb-slider .mb-panel {
+	margin: 0px;
+	padding: 30px;
+	display: block;
+	cursor: pointer;
+	float: left;
+	list-style: none;
+}
+
+/* Cursor to arrow over current panel, pointer for all others,
+change .current class name using plugin option, currentPanel : 'current' */
+.mb-slider .mb-panel.current {
+	cursor: auto;
+}
+
+/*** Inside the panel ***/
+.mb-inside {
+	padding: 0px;
+    text-align: center;
+}
+
+.mb-inside * {
+	max-width: 100%;
+}
+
+/*** Left & Right Navigation Arrows ***/
+a.mb-scrollButtons {
+	display: block;
+	width: 60px;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	cursor: pointer;
+	text-decoration: none;
+	outline: 0;
+    z-index: 100;
+    background-position: 0% 20%;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+a.mb-scrollButtons.mb-left {
+    background-image: url(/media/arrow-left.png);
+	left: 0;
+}
+a.mb-scrollButtons.mb-right {
+    background-image: url(/media/arrow-right.png);
+	right: 0;
+}
+a.mb-scrollButtons.mb-left:hover {
+    background-color: #aaa;
+    border-style; solid;
+    border-color: #111;
+    border-width: 2px;
+    opacity: .7;
+}
+a.mb-scrollButtons.mb-right:hover {
+    background-color: #aaa;
+    border-style; solid;
+    border-color: #111;
+    border-width: 2px;
+    opacity: .7;
+}
+a.mb-scrollButtons.disabled {
+	display: none;
+}
+
+/*** Controls added below the panels ***/
+.mb-controls {
+	margin: 0 auto;
+	text-align: center;
+	background: #ccc;
+	position: relative;
+	z-index: 100;
+}
+.mb-controls a {
+	color: #444;
+	font: 12px Georgia, Serif;
+	display: inline-block;
+	text-decoration: none;
+	padding: 2px;
+	height: 18px;
+	margin: 0 5px 0 0;
+	text-align: center;
+	outline: 0;
+}
+.mb-controls a.current, .mb-controls a:hover {
+	color: #fff;
+}
+.mb-active-slider .mb-controls {
+	background: #999bff;
+}

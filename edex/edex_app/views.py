@@ -16,19 +16,23 @@ def index(request):
     context = {}
     context.update(csrf(request))
     context['auth_error'] = check_if_login(request)
+    context['related_lectures'] = get_related_lectures(request)
     context['index'] = True
+    context['keywords'] = Keyword.objects.order_by('?')[:10]
     return render_to_response('index.html', context, context_instance=RequestContext(request))
 
 def institution(request, institution):
     context = {}
     context.update(csrf(request))
     context['auth_error'] = check_if_login(request)
+    context['related_lectures'] = get_related_lectures(request)
     return render_to_response('institution.html', context, context_instance=RequestContext(request))
 
 def course(request, course_pk):
     context = {}
     context.update(csrf(request))
     context['auth_error'] = check_if_login(request)
+    context['related_lectures'] = get_related_lectures(request)
     try:
         context['course'] = Course.objects.get(pk=course_pk)
         context['lectures'] = get_lectures(context['course'])
@@ -40,6 +44,7 @@ def lecture(request, course_pk, lecture_num):
     context = {}
     context.update(csrf(request))
     context['auth_error'] = check_if_login(request)
+    context['related_lectures'] = get_related_lectures(request)
     try:
         context['course'] = Course.objects.get(pk=course_pk)
         context['lectures'] = get_lectures(context['course'])
@@ -53,6 +58,7 @@ def search(request):
     context = {}
     context.update(csrf(request))
     context['auth_error'] = check_if_login(request)
+    context['related_lectures'] = get_related_lectures(request)
 
     results_per_page = 10
     if request.GET.get('text'):
@@ -74,12 +80,14 @@ def notes(request):
     context = {}
     context.update(csrf(request))
     context['auth_error'] = check_if_login(request)
+    context['related_lectures'] = get_related_lectures(request)
     return render_to_response('notes.html', context, context_instance=RequestContext(request))
 
 def profile(request, username):
     context = {}
     context.update(csrf(request))
     context['auth_error'] = check_if_login(request)
+    context['related_lectures'] = get_related_lectures(request)
     try:
         user = User.objects.get(username=username)
         user_profile = UserProfile.objects.filter(user=user)[0]
@@ -92,6 +100,7 @@ def registration(request):
     context = {}
     context.update(csrf(request))
     context['languages'] = conf.LANGUAGES
+    context['related_lectures'] = get_related_lectures(request)
     if request.user.is_authenticated():
         return HttpResponseRedirect("/edex/")
     else:
@@ -155,7 +164,7 @@ def logout_view(request):
 def check_if_login(request):
     if request.method == 'POST':
         if 'login' == request.POST['type']:
-            if request.user_is_authenticated():
+            if request.user.is_authenticated():
                 return 'You are already logged in.'
             else:
                 if not auth(request):
@@ -165,3 +174,9 @@ def get_lectures(course):
     lectures = []
     lectures = Lecture.objects.filter(course=course).order_by('number')
     return lectures
+
+def get_related_lectures(request):
+    if request.user.is_authenticated():
+        return Lecture.objects.order_by('?')[:6]
+    else:
+        return Lecture.objects.order_by('?')[:6]

@@ -3,19 +3,33 @@
     <head>
         <link rel="stylesheet" href="/media/default.css" />
 		<link type="text/css" href="/media/jquery/css/dark-hive/jquery-ui-1.8.17.custom.css" rel="Stylesheet" />
+        <link href="/media/movingboxes/css/movingboxes.css" media="screen" charset="utf-8" rel="stylesheet">
+        <!--[if lt IE 9]>
+        <link type="text/css" href="css/movingboxes-ie.css" rel="stylesheet" media="screen" />
+        <![endif]-->
 		<script type="text/javascript" src="/media/jquery/js/jquery-1.7.1.min.js"></script>
 		<script type="text/javascript" src="/media/jquery/js/jquery-ui-1.8.17.custom.min.js"></script>
 		<script type="text/javascript" src="/media/default.js"></script>
+        <script src="/media/movingboxes/js/jquery.movingboxes.min.js" charset="utf-8"></script>
         {% if index != None %}
         <script>
             $(document).ready(function() {
                 $(".show_login").hide();
                 $(".login_area").show();
+                $(".related_videos_table").show();
             });
         </script>
         {% endif %}
         {% if course %}
         <script>
+            $(function(){
+                $('.video_carousel').movingBoxes({
+                    hashTags: false,
+                    reducedSize: .5,
+                    wrap: true,
+                    startPanel: {{ lecture_num|default:"1" }},
+                });
+            });
             jQuery(function($) {
             });
         </script>
@@ -25,9 +39,16 @@
         <script type="text/javascript">
             google.load("swfobject", "2.1");
             function load_video() {
-                var params = { allowScriptAccess: "always"};
+                var params = {
+                    allowScriptAccess: "always",
+                    allowfullscreen: "true",
+                    cc_load_policy: "1",
+                    autoplay: "1",
+                    color: "white",
+                    theme: "light"
+                };
                 var atts = { id: "ytPlayer"};
-                swfobject.embedSWF("http://www.youtube.com/v/{{ lecture_video_id }}?enablejsapi=1&playerapiid=ytplayer&version=3", "video_player", "400", "300", "8", null, null, params, atts);
+                swfobject.embedSWF("http://www.youtube.com/v/{{ lecture_video_id }}?enablejsapi=1&playerapiid=ytplayer&version=3", "video_player", "500", "300", "8", null, null, params, atts);
             }
             google.setOnLoadCallback(load_video);
         </script>
@@ -55,7 +76,7 @@
             			            		<input type="text" name="text" id="text" class="ui-widget ui-widget-content ui-corner-all main_search_text" value="{{ text }}" />
                                         </td>
                                         <td>
-                        					<input type="submit" value="search" class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all" />
+                        					<input type="submit" value="search" class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all main_search_button" />
                                         </td>
                                     </tr>
                                 </table>
@@ -68,7 +89,7 @@
                         {% if user.is_authenticated %}
                             <a href="{% url edex_app.views.profile user.username %}">{{ user.username }}</a> | <a href="{% url edex_app.views.logout_view %}">Logout</a>
                         {% else %}
-                            <table>
+                            <table class="login_table">
                                 <tr>
                                     <td>
                                     	<form action="." method="post" class="login_area">
@@ -99,7 +120,7 @@
                                 </tr>
                                 <tr>
                                     <td>
-            							<label class="error">{{ auth_error }}</label>
+            							<label class="error">{{ auth_error|default:"" }}</label>
                                     </td>
                                 </tr>
                             </table>
@@ -115,6 +136,21 @@
         </div>
 		<div class="clear"></div>
         <div class="footer">
+            <div class="related_videos">
+                <a class="ui-widget show_related_videos" href="#">Related Videos</a>
+                <table class="related_videos_table">
+                    <tr>
+                    {% for related_lecture in related_lectures %}
+                        <td>
+                            <a href="{% url edex_app.views.lecture related_lecture.course.pk related_lecture.number %}"><img src="http://img.youtube.com/vi/{{ related_lecture.video }}/0.jpg" class="related_lecture_img" /></a>
+                            <p>
+                                {{ related_lecture.title }}
+                            </p>
+                        </td>
+                    {% endfor %}
+                    </tr>
+                </table>
+            </div>
         </div>
     </body>
 </html>

@@ -14,29 +14,29 @@ Education Exchange
 		<table class="index_search_table">
 			<tr>
 				<td>
-					<input type="text" name="text" id="text" class="ui-widget ui-widget-content ui-corner-all index_search_text" />
+					<input type="text" name="text" id="text" class="ui-widget-content ui-corner-all index_search_text" />
 				</td>
 				<td>
-					<input type="submit" value="search" class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all" />
+					<input type="submit" value="search" class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all index_search_button" />
 				</td>
 			</tr>
+            <tr>
+                <td>
+                    <div class="keywords">
+                    {% if user.is_authenticated %}
+                        {% for keyword in user.keywords %}
+                            <a href="{% url edex_app.views.search %}?text={{ keyword.keyword }}">{{keyword.keyword}}</a>
+                        {% endfor %}
+                    {% else %}
+                        {% for keyword in keywords %}
+                            <a href="{% url edex_app.views.search %}?text={{ keyword.keyword }}">{{keyword.keyword}}</a>
+                        {% endfor %}
+                    {% endif %}
+                    </div>
+                </td>
+            </tr>
 		</table>
 	</form>
 </div>
 <div class="clear"></div>
-<div class="keywords">
-{% if user.is_authenticated %}
-	{{ user.username }} keywords
-{% else %}
-	Description of EdEx with some sample keywords
-{% endif %}
-</div>
-<div class="clear"></div>
-<div class="related_courses">
-{% if user.is_authenticated %}
-	{{ user.username }} Recommendations
-{% else %}
-	Popular Courses
-{% endif %}
-</div>
 {% endblock %}

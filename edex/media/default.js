@@ -6,4 +6,8 @@ $(document).ready(function() {
        $(".login_area").animate({width: 'toggle'});
        $(".show_login").hide();
     });
+
+    $(".show_related_videos").click(function() {
+       $(".related_videos_table").slideToggle();
+    });
 });

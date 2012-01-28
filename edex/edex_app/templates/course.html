@@ -11,23 +11,31 @@
 {% block content %}
 
 <div class="lecture_container">
-    <div class="video_carousel">
+    <ul class="video_carousel">
     {% for lecture in lectures %}
         {% if lecture.number == lecture_num %}
-            <div class="lecture_slide">
+            <li>
                 <div id="video_player">
-                    You need flash player to view this video.
+                    Loading video...
                 </div>
-            </div>
+                <h2>
+                    {{ lecture.title }}
+                </h2>
+                <p>
+                </p>
+            </li>
         {% else %}
-            <div class="lecture_slide">
-                <a href="{% url edex_app.views.lecture course.pk lecture.number %}"><img src="http://img.youtube.com/vi/{{ lecture.video }}/0.jpg" /></a>
-            </div>
+            <li>
+                <a href="{% url edex_app.views.lecture course.pk lecture.number %}"><img src="http://img.youtube.com/vi/{{ lecture.video }}/0.jpg" class="lecture_img" /></a>
+                <h2>
+                    {{ lecture.title }}
+                </h2>
+                <p>
+                </p>
+            </li>
         {% endif %}
     {% endfor %}
-    </div>
-    <a href="#" id="ui-carousel-next">next</a>
-    <a href="#" id="ui-carousel-prev">prev;</a>
+    </ul>
 </div>
 <div class="clear"></div>
 <div class="video_description">
