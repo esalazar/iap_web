@@ -7,7 +7,12 @@ $(document).ready(function() {
        $(".show_login").hide();
     });
 
-    $(".show_related_videos").click(function() {
-       $(".related_videos_table").slideToggle();
-    });
+    $(".related_videos").hover(
+        function() {
+            $(".related_videos_table").show("slide", {direction: "up"});
+        },
+        function() {
+            $(".related_videos_table").hide("slide", {direction: "up"});
+        }
+    );
 });

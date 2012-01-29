@@ -118,6 +118,7 @@ a:hover {
 .login {
     padding: 10px;
     width: 300px;
+    float: right;
 }
 
 .login_table {
