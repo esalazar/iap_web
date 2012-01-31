@@ -2,8 +2,12 @@
 
 {% block title %}
 {% if user_profile %}
-    {{ user_profile.username }}'s Profile
+    {{ user_profile.user.username }}'s Profile
 {% else %}
 Profiles
 {% endif %}
+{% endblock %}
+
+{% block content %}
+This is {{ user_profile.user.username }}'s profile!
 {% endblock %}

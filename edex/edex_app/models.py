@@ -49,16 +49,16 @@ class Note(models.Model):
 
 class Question(models.Model):
     text        = models.CharField(max_length=500)
-    user        = models.ForeignKey(User, unique=True)
-    lecture     = models.ForeignKey(Lecture, unique=True)
+    user        = models.ForeignKey(User)
+    lecture     = models.ForeignKey(Lecture)
     date        = models.DateTimeField(auto_now=True)
     up_votes    = models.IntegerField()
     down_votes  = models.IntegerField()
 
 class Answer(models.Model):
     text        = models.CharField(max_length=500)
-    user        = models.ForeignKey(User, unique=True)
-    question    = models.ForeignKey(Question, unique=True)
+    user        = models.ForeignKey(User)
+    question    = models.ForeignKey(Question)
     date        = models.DateTimeField(auto_now=True)
     up_votes    = models.IntegerField()
     down_votes  = models.IntegerField()

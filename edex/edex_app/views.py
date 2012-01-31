@@ -13,6 +13,7 @@ from haystack.query import SearchQuerySet, EmptySearchQuerySet
 import conf
 import datetime
 import json
+import urllib, urllib2
 
 def index(request):
     context = {}
@@ -46,6 +47,7 @@ def lecture(request, course_pk, lecture_num):
     context = {}
     context.update(csrf(request))
     context['auth_error'] = check_if_login(request)
+    context['languages'] = conf.LANGUAGES
     try:
         context['related_lectures'] = get_related_lectures(request)
         context['course'] = Course.objects.get(pk=course_pk)
@@ -61,9 +63,10 @@ def lecture(request, course_pk, lecture_num):
         context['questions_answers'] = questions_answers
         try:
             context['notes'] = Note.objects.get(user=request.user, lecture=current_lecture)
+            context['community_notes'] = Note.objects.filter(lecture=current_lecture).exclude(user=request.user)
         except:
             context['notes'] = None
-        context['community_notes'] = Note.objects.filter(lecture=current_lecture).exclude(user=request.user)
+            context['community_notes'] = None
     except:
         raise Http404('The course does not exist.')
     return render_to_response('course.html', context, context_instance=RequestContext(request))
@@ -104,10 +107,10 @@ def profile(request, username):
     context['related_lectures'] = get_related_lectures(request)
     try:
         user = User.objects.get(username=username)
-        user_profile = UserProfile.objects.filter(user=user)[0]
+        user_profile = Profile.objects.get(user=user)
         context['user_profile'] = user_profile
     except:
-        raise Http404('Cannot find that user.')
+        raise Http404('Cannot find user ' + username + ".")
     return render_to_response('profile.html', context, context_instance=RequestContext(request))
 
 def registration(request):
@@ -162,6 +165,27 @@ def registration(request):
                         context['registration_error'] = 'Error with registration.'
     return render_to_response('registration.html', context, context_instance=RequestContext(request))
 
+def ask_question(request):
+    pass
+
+def answer_question(request):
+    if request.user.is_authenticated():
+        text = request.POST['text']
+        question_pk = request.POST['question_pk']
+        question = Question.objects.get(pk=int(question_pk))
+        answer = Answer(text=text, question=question, user=request.user, up_votes=0, down_votes=0)
+        answer.save()
+        return redirect('edex_app.views.lecture', course_pk=question.lecture.course.pk, lecture_num=question.lecture.number)
+
+def ask_question(request):
+    if request.user.is_authenticated():
+        text = request.POST['text']
+        lecture_pk = request.POST['lecture_pk']
+        lecture = Lecture.objects.get(pk=int(lecture_pk))
+        question = Question(text=text, lecture=lecture, user=request.user, up_votes=0, down_votes=0)
+        question.save()
+        return redirect('edex_app.views.lecture', course_pk=lecture.course.pk, lecture_num=lecture.number)
+
 def save_notes(request):
     if request.user.is_authenticated():
         note = request.POST['note']
@@ -211,3 +235,12 @@ def get_related_lectures(request):
         return Lecture.objects.order_by('?')[:6]
     else:
         return Lecture.objects.order_by('?')[:6]
+
+def translate(request):
+    to = request.GET['to']
+    text = urllib.quote(request.GET['text'].strip())
+    url_to_bing = 'http://api.microsofttranslator.com/v2/Ajax.svc/Translate?appId=290717C1C08FFAE2540D5B8D489CFA8C0B9885DE&from=&to=' + to + '&text=' + text
+    req = urllib2.urlopen(url_to_bing)
+    data_from_bing = req.read()
+    data = json.dumps({ 'translated': data_from_bing })
+    return HttpResponse(data, mimetype='application/json')

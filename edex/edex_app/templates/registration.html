@@ -4,15 +4,33 @@
 
 {% block content %}
 <div class="registration">
-    <table>
+    <table class="full_cell">
         <tr>
-            <td>
-                Sign up now!
+            <td class="half_width">
+                <h2>
+                Join Education Exchange!
+                </h2>
+                <p>
+                Become a member of EdEx to get the best online education experience. Benefits include:
+                </p>
+                <ul>
+                    <li>
+                        Access to over thousands of video lectures from OCW universities across the world
+                    </li>
+                    <li>
+                        Creating and sharing notes across lectures
+                    </li>
+                    <li>
+                        Asking and answering questions about lectures
+                    </li>
+                </ul>
+                <p>
+                    Sign up now!
+                </p>
             </td>
-            <td>
+            <td class="half_width">
             	<form action="." method="post">
                 {% csrf_token %}
-            		<fieldset>
             			<table class="registration_table ui-widget">
             				<tr>
             					<td><label for="username">Username: </label></td>
@@ -61,7 +79,6 @@
             				</tr>
             			</table>
                         <label class="error">{{ registration_error }}</label>
-            		</fieldset>
             	</form>
             </td>
         </tr>

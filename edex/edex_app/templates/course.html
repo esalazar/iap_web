@@ -80,8 +80,23 @@
                 </div>
             </td>
             <td class="half_width">
-                <form id="questions_answers">
-                    <textarea id="ask_question_area" class="ui-corner-all" rows="4" cols="30">Ask a question!</textarea>
+                <div id="questions_answers">
+            		<select name="selected_language" id="selected_language" class="ui-corner-all registration_select">
+			    		{% for code_language, full_language in languages %}
+							{% if code_language == "en" %}
+								<option selected="selected" value="{{ code_language }}">{{ full_language }}</option>
+							{% else %}
+								<option value="{{ code_language }}">{{ full_language }}</option>
+							{% endif %}
+						{% endfor %}
+					</select>
+                    <a id="translate_text" href="#">Translate</a>
+                    <form id="question_form" method="post" action="{% url edex_app.views.ask_question %}" >
+                        {% csrf_token %}
+                        <textarea id="ask_question_area" name="text" class="ui-corner-all" rows="4" cols="30">Ask a question!</textarea>
+                        <input type="submit" value="Ask" class="ui-button ui-button-text-only ui-corner-all ui-state-default" />
+                        <input type="hidden" name="lecture_pk" value="{{ lecture_pk }}" />
+                    </form>
 					<table>
 						{%for question, answers in questions_answers %}
 							<tr>
@@ -90,9 +105,15 @@
 									<div class="modify_text">
 										{{ question.text }}
 									</div>
-									<div class="username_quesiton">
-										{{ question.user.username }}
-									</div>
+									<table class="username_question">
+                                        <tr>
+                                            <td>
+                                            </td>
+                                            <td>
+										        <a href="{% url edex_app.views.profile question.user.username %}">{{ question.user.username }}</a>
+                                            </td>
+                                        </tr>
+									</table>
 								</div>
 								</td>
 							</tr>
@@ -109,19 +130,9 @@
 										</tr>
 										<tr>
 											<td>
-												<table>
+												<table class="username_question">
 													<tr>
 														<td>
-															<a id="translate_link" href="#">Translate: </a>
-															<select name="language" id="language" class="ui-corner-all registration_select">
-															{% for code_language, full_language in languages %}
-																{% if code_language == {{ user.language }} %}
-																	<option selected="selected" value="{{ code_language }}">{{ full_language }}</option>
-																{% else %}
-																	<option value="{{ code_language }}">{{ full_language }}</option>
-																{% endif %}
-															{% endfor %}
-															</select>
 														</td>
 														<td>
 															<a href="{% url edex_app.views.profile answer.user.username %}">{{ answer.user.username }}</a>
@@ -131,12 +142,22 @@
 											</td>
 										</tr>
 									{% endfor %}
+                                        <tr>
+                                            <td>
+                                                <form id="answer_form" method="post" action="{% url edex_app.views.answer_question %}">
+                                                    {% csrf_token %}
+                                                    <textarea id="answer_question_area" name="text" class="ui-corner-all" rows="4" cols="30"></textarea>
+                                                    <input type="submit" value="Answer" class="ui-button ui-button-text-only ui-corner-all ui-state-default" />
+                                                    <input type="hidden" name="question_pk" value="{{ question.pk }}" />
+                                                </form>
+                                            </td>
+                                        </tr>
 									</table>
 								</td>
 							</tr>
 						{% endfor %}
 					</table>
-				</form>
+				</div>
             </td>
         </tr>
     </table>

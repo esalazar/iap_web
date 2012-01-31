@@ -50,7 +50,7 @@
             }
             function modifyText(text) {
                 if (text != null) {
-                    return text.replace(/\s*\@([:\d]+)\s*/, " <a href='javascript:seekPlayer(\"$1\");'>$1</a> ");
+                    return text.replace(/\@([:\d]+)/, " <a href='javascript:seekPlayer(\"$1\");'>$1</a> ");
                 }
             }
             google.load("swfobject", "2.1");
@@ -58,10 +58,10 @@
                 var params = {
                     allowScriptAccess: "always",
                     allowfullscreen: "true",
-                    cc_load_policy: "1",
                     autoplay: "1",
                     color: "white",
-                    theme: "light"
+                    theme: "light",
+                    cc_load_policy: "1",
                 };
                 var atts = { id: "ytPlayer"};
                 swfobject.embedSWF("http://www.youtube.com/v/{{ lecture_video_id }}?enablejsapi=1&playerapiid=ytplayer&version=3", "video_player", "400", "250", "8", null, null, params, atts);
@@ -77,6 +77,22 @@
                     $("#notes_edit").hide();
                     $("#notes_preview").html(modifyText($("#notes_edit").val()));
                 });
+                $(".modify_text").each(function() {
+                    $(this).html(modifyText($(this).html()));
+                });
+                $("#translate_text").click(function() {
+                    $(".modify_text").each(function() {
+                        var this_text = $(this)
+                        $.get("{% url edex_app.views.translate %}?to=" + $("#selected_language").val() + "&text=" + this_text.html(), function(data) {
+                            this_text.html(data.translated);
+                        });
+                    });
+                });
+                $("#ask_question_area").click(function() {
+                    if ($("#ask_question_area").val() == "Ask a question!") {
+                        $("#ask_question_area").val("");
+                    }
+                });
                 $("#notes_tab").tabs();
                 $(".community_panel").accordion({
                     collapsible: true,
@@ -91,7 +107,7 @@
                             function(data) {
                                 $("#save_notes_message").html("<label>" + data.message + "</label>");
                             }, "json");
-                    });
+                });
             });
         </script>
         {% endif %}
@@ -115,7 +131,7 @@
                                 <table class="main_search_table">
                                     <tr>
                                         <td>
-            			            		<input type="text" name="text" id="text" class="ui-widget ui-widget-content ui-corner-all main_search_text" value="{{ text }}" />
+            			            		<input type="text" name="text" id="text" class="ui-widget-content ui-corner-all main_search_text" value="{{ text }}" />
                                         </td>
                                         <td>
                         					<input type="submit" value="search" class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all main_search_button" />

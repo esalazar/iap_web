@@ -14,6 +14,9 @@ urlpatterns = patterns('',
     url(r'^edex/profile/(?P<username>[\w_\-\.]*)/$', 'edex_app.views.profile'),
     url(r'^edex/save_notes/$', 'edex_app.views.save_notes'),
     url(r'^edex/logout/$', 'edex_app.views.logout_view'),
+    url(r'^edex/answer_question/$', 'edex_app.views.answer_question'),
+    url(r'^edex/ask_question/$', 'edex_app.views.ask_question'),
+    url(r'^edex/translate/$', 'edex_app.views.translate'),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),

@@ -1,4 +1,8 @@
 LANGUAGES = (
     ('en', 'English'),
-    ('es', 'Espanol'),
+    ('es', 'Spanish'),
+    ('fr', 'French'),
+    ('de', 'German'),
+    ('ru', 'Russian'),
+    ('pt', 'Portuguese'),
 )
