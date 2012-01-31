@@ -82,25 +82,61 @@
             <td class="half_width">
                 <form id="questions_answers">
                     <textarea id="ask_question_area" class="ui-corner-all" rows="4" cols="30">Ask a question!</textarea>
-                    {%for question, answers in questions_answers %}
-                        <div class="question_section">
-                            <div class="modify_text">
-                                {{ question.text }} by {{ question.user.username }}
-                            </div>
-                            <div>
-                            {% for answer in answers %}
-                                <div class="answer_panel">
-                                    <h3 class="modify_text">
-                                        {{ answer.text }} by {{ answer.user.username }}
-                                    </h3>
-                                    <div>
-                                    </div>
-                                </div>
-                            </div>
-                           {% endfor %}
-                        </div>
-                    {% endfor %}
-                </div>
+					<table>
+						{%for question, answers in questions_answers %}
+							<tr>
+								<td>
+								<div class="question_section">
+									<div class="modify_text">
+										{{ question.text }}
+									</div>
+									<div class="username_quesiton">
+										{{ question.user.username }}
+									</div>
+								</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<table class="answer_panel">
+									{% for answer in answers %}
+										<tr>
+											<td>
+												<div class="modify_text">
+													{{ answer.text }}
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<table>
+													<tr>
+														<td>
+															<a id="translate_link" href="#">Translate: </a>
+															<select name="language" id="language" class="ui-corner-all registration_select">
+															{% for code_language, full_language in languages %}
+																{% if code_language == {{ user.language }} %}
+																	<option selected="selected" value="{{ code_language }}">{{ full_language }}</option>
+																{% else %}
+																	<option value="{{ code_language }}">{{ full_language }}</option>
+																{% endif %}
+															{% endfor %}
+															</select>
+														</td>
+														<td>
+															<a href="{% url edex_app.views.profile answer.user.username %}">{{ answer.user.username }}</a>
+														</td>
+													</tr>
+												</table>
+											</td>
+										</tr>
+									{% endfor %}
+									</table>
+								</td>
+							</tr>
+						{% endfor %}
+					</table>
+				</form>
             </td>
         </tr>
     </table>

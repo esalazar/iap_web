@@ -103,6 +103,12 @@ a:hover {
 	text-align: center;
 }
 
+.username_question {
+	float: right;
+}
+
+
+
 .notes_section {
     float: right;
     padding: 10px;
@@ -121,6 +127,10 @@ a:hover {
     float: left;
     padding:  10px;
     width: 70%;
+}
+
+.answer_panel {
+	margin-left: 10px;
 }
 
 .registration {
