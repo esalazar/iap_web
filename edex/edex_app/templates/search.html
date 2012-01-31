@@ -3,7 +3,8 @@
 {% block title %}Search{% endblock %}
 
 {% block content %}
-    <div="search_content">
+    <div class="search_content">
+        <div>
         {% if text %}
             {% for result in page.object_list %}
                 <p>
@@ -26,5 +27,6 @@
         {% else %}
             {# Show some example queries to run, maybe query syntax, something else? #}
         {% endif %}
+        </div>
     </div>
 {% endblock %}

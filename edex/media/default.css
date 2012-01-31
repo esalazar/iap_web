@@ -5,22 +5,22 @@ body {
 }
 
 a:link {
-    color: #1111ff;
+    color: #26B3F7;
     text-decoration: underline;
 }
 
 a:active {
-    color: #1111ff;
+    color: #26B3F7;
     text-decoration: underline;
 }
 
 a:visited {
-    color: #1111ff;
+    color: #26B3F7;
     text-decoration: underline;
 }
 
 a:hover {
-    color: #0000ff;
+    color: #0ff;
     text-decoration: none;
 }
 
@@ -42,6 +42,10 @@ a:hover {
 
 .logo_image {
 	height: 60px;
+}
+
+.search_content {
+    text-align: center;
 }
 
 .main_search {
@@ -99,6 +103,26 @@ a:hover {
 	text-align: center;
 }
 
+.notes_section {
+    float: right;
+    padding: 10px;
+    width: 70%;
+}
+
+.notes_textarea {
+    width: 100%;
+}
+
+#ask_question_area {
+    width: 100%;
+}
+
+#questions_answers {
+    float: left;
+    padding:  10px;
+    width: 70%;
+}
+
 .registration {
 	text-align: center;
 }
@@ -133,6 +157,9 @@ a:hover {
     display: none;
 }
 
+.lecture_utilities {
+}
+
 .related_videos_table {
     display: none;
 }
@@ -140,6 +167,12 @@ a:hover {
 .lecture_container {
     position: relative;
     margin: 0 auto;
+    height: 350px;
+}
+
+.course_title {
+    text-align: center;
+    font-size: 1.2em;
 }
 
 .footer {
@@ -150,8 +183,16 @@ a:hover {
     text-align: center;
 }
 
+.lecture_img {
+    height: 140px;
+}
+
 .related_lecture_img {
-    height: 150px;
+    height: 120px;
+}
+
+.half_width {
+    width: 50%;
 }
 
 .clear {

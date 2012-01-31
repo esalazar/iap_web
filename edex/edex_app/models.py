@@ -44,8 +44,8 @@ class Lecture(models.Model):
 
 class Note(models.Model):
     text    = models.TextField(null=True, blank=True)
-    user    = models.ForeignKey(User, unique=True)
-    lecture = models.ForeignKey(Lecture, unique=True)
+    user    = models.ForeignKey(User)
+    lecture = models.ForeignKey(Lecture)
 
 class Question(models.Model):
     text        = models.CharField(max_length=500)

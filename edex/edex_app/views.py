@@ -11,6 +11,8 @@ from edex_app.models import *
 from haystack.query import SearchQuerySet, EmptySearchQuerySet
 
 import conf
+import datetime
+import json
 
 def index(request):
     context = {}
@@ -44,12 +46,24 @@ def lecture(request, course_pk, lecture_num):
     context = {}
     context.update(csrf(request))
     context['auth_error'] = check_if_login(request)
-    context['related_lectures'] = get_related_lectures(request)
     try:
+        context['related_lectures'] = get_related_lectures(request)
         context['course'] = Course.objects.get(pk=course_pk)
         context['lectures'] = get_lectures(context['course'])
         context['lecture_num'] = int(lecture_num)
-        context['lecture_video_id'] = Lecture.objects.filter(course=context['course'], number=lecture_num)[0].video
+        current_lecture = Lecture.objects.get(course=context['course'], number=lecture_num)
+        context['lecture_pk'] = current_lecture.pk
+        context['lecture_video_id'] = current_lecture.video
+        questions_answers = []
+        questions = Question.objects.order_by('up_votes').filter(lecture=current_lecture)
+        for question in questions:
+            questions_answers.append((question, Answer.objects.filter(question=question)))
+        context['questions_answers'] = questions_answers
+        try:
+            context['notes'] = Note.objects.get(user=request.user, lecture=current_lecture)
+        except:
+            context['notes'] = None
+        context['community_notes'] = Note.objects.filter(lecture=current_lecture).exclude(user=request.user)
     except:
         raise Http404('The course does not exist.')
     return render_to_response('course.html', context, context_instance=RequestContext(request))
@@ -147,6 +161,23 @@ def registration(request):
                     except:
                         context['registration_error'] = 'Error with registration.'
     return render_to_response('registration.html', context, context_instance=RequestContext(request))
+
+def save_notes(request):
+    if request.user.is_authenticated():
+        note = request.POST['note']
+        lecture_pk = request.POST['lecture_pk']
+        lecture = Lecture.objects.get(pk=int(lecture_pk))
+        data = None
+        try:
+            note_object = Note.objects.get(user=request.user, lecture=lecture)
+            note_object.text = note
+            note_object.save()
+        except:
+            note_object = Note(user=request.user, lecture=lecture, text=note)
+            note_object.save()
+        finally:
+            data = json.dumps({'message':'Saved at ' + datetime.datetime.now().ctime()})
+    return HttpResponse(data, mimetype='applicaiton/json')
 
 def auth(request):
     username = request.POST['username']

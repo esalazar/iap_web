@@ -9,7 +9,9 @@
 {% endblock  %}
 
 {% block content %}
-
+<div class="course_title">
+    <a href="{% url edex_app.views.course course.pk %}">{{ course.title }}</a>
+</div>
 <div class="lecture_container">
     <ul class="video_carousel">
     {% for lecture in lectures %}
@@ -42,23 +44,70 @@
 
 </div>
 <div class="clear"></div>
-<table>
-    <tr>
-        <td>
-            <div class="notes_panel">
-
-            </div>
-        </td>
-        <td>
-            <div class="question_answer_panel">
-
-            </div>
-        </td>
-    </tr>
-</table>
+{% if lecture_num %}
+<div class="lecture_utilities">
+    <table class="full_cell">
+        <tr>
+            <td class="half_width">
+                <div id="notes_tab" class="notes_section">
+                    <ul>
+                        <li><a href="#personal_notes">Personal</a></li>
+                        <li><a href="#community_notes">Community</a></li>
+                    </ul>
+                    <div id="personal_notes">
+                        <form id="save_notes">
+                        {% csrf_token %}
+                            <div id="notes_preview"></div>
+                            <textarea id="notes_edit" name="note" class="notes_textarea ui-corner-all" rows="15" cols="30">{{ notes.text }}</textarea>
+                            <div class="clear"></div>
+                            <input type="submit" value="Save" class="ui-button ui-button-text-only ui-corner-all ui-state-default" />
+                            <a id="edit_notes" href="#">edit</a>
+                            <a id= "preview_notes" href="#">preview</a>
+                            <input type="hidden" name="lecture_pk" value="{{ lecture_pk }}"/>
+                            <div id="save_notes_message"></div>
+                        </form> 
+                    </div>
+                    <div id="community_notes">
+                        <div class="community_panel">
+                            {% for note in community_notes %}
+                                <h3>{{ note.user.username }}</h3>
+                                <div class="modify_text">
+                                    {{ note.text }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </td>
+            <td class="half_width">
+                <form id="questions_answers">
+                    <textarea id="ask_question_area" class="ui-corner-all" rows="4" cols="30">Ask a question!</textarea>
+                    {%for question, answers in questions_answers %}
+                        <div class="question_section">
+                            <div class="modify_text">
+                                {{ question.text }} by {{ question.user.username }}
+                            </div>
+                            <div>
+                            {% for answer in answers %}
+                                <div class="answer_panel">
+                                    <h3 class="modify_text">
+                                        {{ answer.text }} by {{ answer.user.username }}
+                                    </h3>
+                                    <div>
+                                    </div>
+                                </div>
+                            </div>
+                           {% endfor %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+{% endif %}
 <div class="clear"></div>
 <div class="recommended_panel">
-
 </div>
 
 {% endblock %}

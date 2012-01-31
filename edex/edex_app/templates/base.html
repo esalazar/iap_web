@@ -30,13 +30,29 @@
                     startPanel: {{ lecture_num|default:"1" }},
                 });
             });
-            jQuery(function($) {
-            });
         </script>
         {% endif %}
         {% if lecture_video_id %}
         <script src="http://www.google.com/jsapi" type="text/javascript"></script>
         <script type="text/javascript">
+            function getSeconds(time_str) {
+                seconds = 0;
+                time_list = time_str.split(":");
+                for (i = 0; i < time_list.length; i++) {
+                    seconds += Math.pow(60, (time_list.length - i - 1)) * parseInt(time_list[i]);
+                }
+                return seconds;
+            }
+            function seekPlayer(time_str) {
+                seconds = getSeconds(time_str);
+                player = document.getElementById("ytPlayer");
+                player.seekTo(seconds);
+            }
+            function modifyText(text) {
+                if (text != null) {
+                    return text.replace(/\s*\@([:\d]+)\s*/, " <a href='javascript:seekPlayer(\"$1\");'>$1</a> ");
+                }
+            }
             google.load("swfobject", "2.1");
             function load_video() {
                 var params = {
@@ -48,9 +64,35 @@
                     theme: "light"
                 };
                 var atts = { id: "ytPlayer"};
-                swfobject.embedSWF("http://www.youtube.com/v/{{ lecture_video_id }}?enablejsapi=1&playerapiid=ytplayer&version=3", "video_player", "500", "300", "8", null, null, params, atts);
+                swfobject.embedSWF("http://www.youtube.com/v/{{ lecture_video_id }}?enablejsapi=1&playerapiid=ytplayer&version=3", "video_player", "400", "250", "8", null, null, params, atts);
             }
             google.setOnLoadCallback(load_video);
+            $(function() {
+                $("#edit_notes").click(function() {
+                    $("#notes_edit").show();
+                    $("#notes_preview").hide();
+                });
+                $("#preview_notes").click(function() {
+                    $("#notes_preview").show();
+                    $("#notes_edit").hide();
+                    $("#notes_preview").html(modifyText($("#notes_edit").val()));
+                });
+                $("#notes_tab").tabs();
+                $(".community_panel").accordion({
+                    collapsible: true,
+                    autoHeight: false,
+                    navigation: true,
+                    active: false,
+                });
+                $("#save_notes").submit(
+                    function(e) {
+                        e.preventDefault();
+                        $.post("{% url edex_app.views.save_notes %}", $("#save_notes").serialize(),
+                            function(data) {
+                                $("#save_notes_message").html("<label>" + data.message + "</label>");
+                            }, "json");
+                    });
+            });
         </script>
         {% endif %}
         <title>EdEx | {% block title %}{% endblock %}</title>

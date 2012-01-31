@@ -23,15 +23,9 @@ Education Exchange
             <tr>
                 <td>
                     <div class="keywords">
-                    {% if user.is_authenticated %}
-                        {% for keyword in user.keywords %}
-                            <a href="{% url edex_app.views.search %}?text={{ keyword.keyword }}">{{keyword.keyword}}</a>
-                        {% endfor %}
-                    {% else %}
                         {% for keyword in keywords %}
                             <a href="{% url edex_app.views.search %}?text={{ keyword.keyword }}">{{keyword.keyword}}</a>
                         {% endfor %}
-                    {% endif %}
                     </div>
                 </td>
             </tr>
